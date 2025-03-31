@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
+import Image from "next/image";
+import Logo from "@/public/images/logo.png";
 
 export default function SignUp() {
   const [isLoading, setIsLoading] = useState(false);
@@ -42,7 +44,7 @@ export default function SignUp() {
       >
         <div className="text-center mb-8">
           <Link href="/" className="inline-block">
-            <h1 className="text-3xl font-bold text-secondary">سيرتي</h1>
+            <Image src={Logo} alt="Logo" className="h-14 w-auto" priority />
           </Link>
           <h2 className="mt-6 text-2xl font-bold text-white">
             إنشاء حساب جديد

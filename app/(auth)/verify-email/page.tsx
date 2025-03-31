@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 import { ArrowRight, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import Image from "next/image";
+import Logo from "@/public/images/logo.png";
 
 export default function VerifyEmail() {
   const [isLoading, setIsLoading] = useState(false);
@@ -37,7 +39,7 @@ export default function VerifyEmail() {
       >
         <div className="text-center mb-8">
           <Link href="/" className="inline-block">
-            <h1 className="text-3xl font-bold text-secondary">سيرتي</h1>
+            <Image src={Logo} alt="Logo" className="h-8 w-auto" priority />
           </Link>
           <h2 className="mt-6 text-2xl font-bold text-white">
             تحقق من بريدك الإلكتروني

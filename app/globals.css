@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Raqaa";
+  src: url("/fonts/ReemKufi-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.font-raqaa {
+  font-family: "Raqaa", system-ui, -apple-system, sans-serif;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;

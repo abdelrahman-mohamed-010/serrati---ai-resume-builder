@@ -7,6 +7,8 @@ import { ArrowRight, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import Image from "next/image";
+import Logo from "@/public/images/logo.png";
 
 export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +36,7 @@ export default function SignIn() {
       >
         <div className="text-center mb-8">
           <Link href="/" className="inline-block">
-            <h1 className="text-3xl font-bold text-secondary">سيرتي</h1>
+            <Image src={Logo} alt="Logo" className=" w-14" ity />
           </Link>
           <h2 className="mt-6 text-2xl font-bold text-white">
             تسجيل الدخول إلى حسابك
