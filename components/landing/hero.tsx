@@ -23,7 +23,7 @@ export function Hero() {
               استخدم الذكاء الاصطناعي لإنشاء سيرة ذاتية مميزة في دقائق معدودة
             </p>
             <div className="flex gap-4">
-              <Link href="/dashboard">
+              <Link href={"/signup"}>
                 <Button
                   size="lg"
                   className="gap-2 text-lg bg-secondary max-sm:text-sm max-sm:px-3 hover:bg-secondary/90"

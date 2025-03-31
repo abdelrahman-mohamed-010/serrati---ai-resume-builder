@@ -14,7 +14,9 @@ export function Navbar() {
         <div className="flex justify-between h-16 items-center">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <h1 className="text-2xl font-bold text-secondary">سيرتي</h1>
+              <Link href="/">
+                <h1 className="text-2xl font-bold text-secondary">سيرتي</h1>
+              </Link>
             </div>
           </div>
           <div className="hidden md:flex items-center gap-5 mr-8">
@@ -41,8 +43,10 @@ export function Navbar() {
             <Link href="/login">
               <Button variant="outline">تسجيل الدخول</Button>
             </Link>
-            <Link href="/register">
-              <Button>إنشاء حساب</Button>
+            <Link href="/signup">
+              <Button className="bg-secondary hover:bg-secondary/90">
+                إنشاء حساب
+              </Button>
             </Link>
           </div>
           <Button
@@ -86,8 +90,10 @@ export function Navbar() {
               من نحن
             </Link>
             <div className="flex flex-col gap-2">
-              <Link href="/register" onClick={() => setIsMenuOpen(false)}>
-                <Button className="w-full">إنشاء حساب</Button>
+              <Link href="/signup" onClick={() => setIsMenuOpen(false)}>
+                <Button className="w-full bg-secondary hover:bg-secondary/90">
+                  إنشاء حساب
+                </Button>
               </Link>
               <Link href="/login" onClick={() => setIsMenuOpen(false)}>
                 <Button variant="outline" className="w-full">
