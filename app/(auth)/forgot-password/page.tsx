@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -95,11 +94,10 @@ export default function ForgotPassword() {
 
               <Button
                 type="submit"
-                className="w-full bg-secondary hover:bg-secondary/90 text-lg"
+                className="w-full py-2 bg-secondary hover:bg-secondary/90 text-lg"
                 disabled={isLoading || !email}
               >
-                {isLoading ? "جاري الإرسال..." : "إرسال رابط الاستعادة"}
-                <ArrowRight className="mr-2 w-5 h-5" />
+                {isLoading ? "جاري الإرسال..." : "أرسل"}
               </Button>
             </form>
           )}

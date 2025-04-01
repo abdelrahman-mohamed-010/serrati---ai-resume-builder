@@ -157,6 +157,10 @@
   } */
 }
 
+.direction-ltr {
+  direction: ltr !important;
+}
+
 @theme {
   --font-sans: "Noto Kufi Arabic", "Inter", "sans-serif";
 

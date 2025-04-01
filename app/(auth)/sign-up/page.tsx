@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Github } from "lucide-react";
+import { Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -137,11 +137,10 @@ export default function SignUp() {
 
             <Button
               type="submit"
-              className="w-full bg-secondary hover:bg-secondary/90 text-lg"
+              className="w-full py-2 bg-secondary hover:bg-secondary/90 text-lg"
               disabled={isLoading || !agreedToTerms}
             >
-              {isLoading ? "جاري إنشاء الحساب..." : "إنشاء حساب"}
-              <ArrowRight className="mr-2 w-5 h-5" />
+              {isLoading ? "جاري إنشاء الحساب..." : "انضم"}
             </Button>
           </form>
 
@@ -193,7 +192,7 @@ export default function SignUp() {
                 className="border-gray-700 hover:bg-gray-800 hover:text-white"
               >
                 <Github className="ml-2 h-5 w-5" />
-                جيثب
+                جيتهب
               </Button>
             </div>
           </div>

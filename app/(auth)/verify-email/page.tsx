@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, RefreshCw } from "lucide-react";
+import { RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Image from "next/image";
@@ -74,11 +74,10 @@ export default function VerifyEmail() {
 
             <Button
               type="submit"
-              className="w-full bg-secondary hover:bg-secondary/90 text-lg"
+              className="w-full py-2 bg-secondary hover:bg-secondary/90 text-lg"
               disabled={isLoading}
             >
-              {isLoading ? "جاري التحقق..." : "تأكيد"}
-              <ArrowRight className="mr-2 w-5 h-5" />
+              {isLoading ? "جاري التحقق..." : "أكّد"}
             </Button>
           </form>
 
