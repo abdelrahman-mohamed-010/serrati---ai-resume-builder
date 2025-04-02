@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import Auth from "./Auth";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -45,15 +46,8 @@ export function Navbar() {
               من نحن
             </Link>
           </div>
-          <div className="hidden md:flex items-center gap-2">
-            <Link href="/sign-in">
-              <Button variant="outline">تسجيل الدخول</Button>
-            </Link>
-            <Link href="/sign-up">
-              <Button className="bg-secondary hover:bg-secondary/90">
-                إنشاء حساب
-              </Button>
-            </Link>
+          <div className="hidden md:block">
+            <Auth />
           </div>
           <Button
             className="md:hidden"
@@ -95,18 +89,7 @@ export function Navbar() {
             >
               من نحن
             </Link>
-            <div className="flex flex-col gap-2">
-              <Link href="/signup" onClick={() => setIsMenuOpen(false)}>
-                <Button className="w-full bg-secondary hover:bg-secondary/90">
-                  إنشاء حساب
-                </Button>
-              </Link>
-              <Link href="/login" onClick={() => setIsMenuOpen(false)}>
-                <Button variant="outline" className="w-full">
-                  تسجيل الدخول
-                </Button>
-              </Link>
-            </div>
+            <Auth variant="mobile" />
           </nav>
         </div>
       )}

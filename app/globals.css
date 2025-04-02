@@ -227,3 +227,37 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .auth-page {
+    @apply min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8;
+  }
+
+  .auth-grid-background {
+    @apply absolute inset-0 bg-[url('/grid.svg')] opacity-10 animate-pulse;
+  }
+
+  .auth-container {
+    @apply w-full max-w-md z-10;
+  }
+
+  .auth-card {
+    @apply p-6 bg-gray-900 border border-gray-800 shadow-xl text-right;
+  }
+
+  .auth-input {
+    @apply w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent;
+  }
+
+  .auth-label {
+    @apply block text-white mb-2 font-medium text-sm;
+  }
+
+  .auth-link {
+    @apply text-sm text-gray-400 hover:text-white transition-colors;
+  }
+
+  .auth-heading {
+    @apply mt-6 text-2xl font-bold text-white;
+  }
+}

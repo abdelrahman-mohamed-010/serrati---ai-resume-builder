@@ -9,61 +9,113 @@ import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import Logo from "@/public/images/logo.png";
+import { useRouter } from "next/navigation";
+import { signIn } from "../lib/supabaseAuth";
+import { PasswordInput } from "@/app/(auth)/components/PasswordInput";
+
+interface FormErrors {
+  email: string;
+  password: string;
+  general: string;
+}
 
 export default function SignIn() {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [formErrors, setFormErrors] = useState<FormErrors>({
+    email: "",
+    password: "",
+    general: "",
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Reset error messages before validating
+    setFormErrors({
+      email: "",
+      password: "",
+      general: "",
+    });
+
+    let hasError = false;
+    const errors: FormErrors = {
+      email: "",
+      password: "",
+      general: "",
+    };
+
+    if (!email) {
+      errors.email = "الرجاء إدخال البريد الإلكتروني";
+      hasError = true;
+    }
+    if (!password) {
+      errors.password = "الرجاء إدخال كلمة المرور";
+      hasError = true;
+    }
+    if (hasError) {
+      setFormErrors(errors);
+      return;
+    }
+
     setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const result = await signIn(email, password);
+      if (result.success) {
+        // Redirect to dashboard or home page after successful login
+        router.push("/dashboard");
+      } else {
+        setFormErrors((prev) => ({
+          ...prev,
+          general:
+            result.message || "حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى.",
+        }));
+      }
+    } catch (error) {
+      setFormErrors((prev) => ({
+        ...prev,
+        general: "حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى.",
+      }));
+    } finally {
       setIsLoading(false);
-      // Here you would normally redirect after successful login
-    }, 1500);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10 animate-pulse"></div>
+    <div className="auth-page">
+      <div className="auth-grid-background" />
       <motion.div
-        className="w-full max-w-md z-10"
+        className="auth-container"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
         <div className="text-center mb-8">
           <Link href="/" className="inline-block">
-            <Image src={Logo} alt="Logo" className=" w-14" />
+            <Image src={Logo} alt="Logo" className="h-14 w-auto" />
           </Link>
-          <h2 className="mt-6 text-2xl font-bold text-white">
-            تسجيل الدخول إلى حسابك
-          </h2>
+          <h2 className="auth-heading">تسجيل الدخول إلى حسابك</h2>
         </div>
 
-        <Card className="p-6 bg-gray-900 border border-gray-800 shadow-xl text-right">
+        <Card className="auth-card">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <label
-                htmlFor="email"
-                className="block text-white mb-2 font-medium text-sm"
-              >
+              <label htmlFor="email" className="auth-label">
                 البريد الإلكتروني
               </label>
-              <div className="relative">
-                <input
-                  id="email"
-                  placeholder="أدخل بريدك الإلكتروني"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent"
-                />
-              </div>
+              <input
+                id="email"
+                placeholder="أدخل بريدك الإلكتروني"
+                type="email"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="auth-input"
+              />
+              {formErrors.email && (
+                <p className="text-red-500 text-sm mt-1">{formErrors.email}</p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -74,27 +126,18 @@ export default function SignIn() {
                 >
                   نسيت كلمة المرور؟
                 </Link>
-                <label
-                  htmlFor="password"
-                  className="block text-white mb-2 font-medium text-sm"
-                >
+                <label htmlFor="password" className="auth-label">
                   كلمة المرور
                 </label>
               </div>
-              <div className="relative">
-                <input
-                  id="password"
-                  placeholder="أدخل كلمة المرور"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent"
-                />
-              </div>
+              <PasswordInput
+                id="password"
+                placeholder="أدخل كلمة المرور"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                error={formErrors.password}
+              />
             </div>
-
             <Button
               type="submit"
               className="w-full py-2 bg-secondary hover:bg-secondary/90 text-lg"
@@ -102,6 +145,11 @@ export default function SignIn() {
             >
               {isLoading ? "جاري تسجيل الدخول..." : "أدخل"}
             </Button>
+            {formErrors.general && (
+              <p className="text-red-500 text-sm mt-2 text-center">
+                {formErrors.general}
+              </p>
+            )}
           </form>
 
           <div className="mt-6">
@@ -169,10 +217,7 @@ export default function SignIn() {
         </Card>
 
         <div className="mt-8 text-center">
-          <Link
-            href="/"
-            className="text-sm text-gray-400 hover:text-white transition-colors"
-          >
+          <Link href="/" className="auth-link">
             العودة إلى الصفحة الرئيسية
           </Link>
         </div>

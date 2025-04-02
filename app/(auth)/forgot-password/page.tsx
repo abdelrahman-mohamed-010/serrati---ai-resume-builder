@@ -8,34 +8,79 @@ import { Card } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import Image from "next/image";
 import Logo from "@/public/images/logo.png";
+import { resetPassword } from "../lib/supabaseAuth";
+
+interface FormErrors {
+  email: string;
+  general: string;
+}
 
 export default function ForgotPassword() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [email, setEmail] = useState("");
+  const [formErrors, setFormErrors] = useState<FormErrors>({
+    email: "",
+    general: "",
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
+
+    // Reset errors
+    setFormErrors({
+      email: "",
+      general: "",
+    });
+
+    // Validate
+    let hasError = false;
+    const errors: FormErrors = {
+      email: "",
+      general: "",
+    };
+
+    if (!email) {
+      errors.email = "الرجاء إدخال البريد الإلكتروني";
+      hasError = true;
+    }
+
+    if (hasError) {
+      setFormErrors(errors);
+      return;
+    }
 
     setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const result = await resetPassword(email);
+      if (result.success) {
+        setIsSubmitted(true);
+      } else {
+        setFormErrors((prev) => ({
+          ...prev,
+          general:
+            result.message || "حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى.",
+        }));
+      }
+    } catch (error) {
+      setFormErrors((prev) => ({
+        ...prev,
+        general: "حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى.",
+      }));
+    } finally {
       setIsLoading(false);
-      setIsSubmitted(true);
-    }, 1500);
+    }
   };
 
   const handleResend = () => {
     setIsSubmitted(false);
-    setIsLoading(false);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10 animate-pulse"></div>
+    <div className="auth-page">
+      <div className="auth-grid-background" />
       <motion.div
-        className="w-full max-w-md z-10"
+        className="auth-container"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -44,12 +89,10 @@ export default function ForgotPassword() {
           <Link href="/" className="inline-block">
             <Image src={Logo} alt="Logo" className="h-14 w-auto" priority />
           </Link>
-          <h2 className="mt-6 text-2xl font-bold text-white">
-            استعادة كلمة المرور
-          </h2>
+          <h2 className="auth-heading">استعادة كلمة المرور</h2>
         </div>
 
-        <Card className="p-6 bg-gray-900 border border-gray-800 shadow-xl text-right">
+        <Card className="auth-card">
           {isSubmitted ? (
             <motion.div
               initial={{ opacity: 0 }}
@@ -72,10 +115,7 @@ export default function ForgotPassword() {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <label
-                  htmlFor="email"
-                  className="block text-white mb-2 font-medium text-sm"
-                >
+                <label htmlFor="email" className="auth-label">
                   البريد الإلكتروني
                 </label>
                 <div className="relative">
@@ -84,13 +124,23 @@ export default function ForgotPassword() {
                     placeholder="أدخل بريدك الإلكتروني"
                     type="email"
                     autoComplete="email"
-                    required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent"
+                    className="auth-input"
                   />
                 </div>
+                {formErrors.email && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {formErrors.email}
+                  </p>
+                )}
               </div>
+
+              {formErrors.general && (
+                <p className="text-red-500 text-sm text-center">
+                  {formErrors.general}
+                </p>
+              )}
 
               <Button
                 type="submit"
@@ -103,6 +153,7 @@ export default function ForgotPassword() {
           )}
 
           <div className="mt-6 text-center text-sm">
+            <span className="text-gray-400">تذكرت كلمة المرور؟</span>{" "}
             <Link
               href="/sign-in"
               className="font-medium text-secondary hover:text-secondary/90"
@@ -113,10 +164,7 @@ export default function ForgotPassword() {
         </Card>
 
         <div className="mt-8 text-center">
-          <Link
-            href="/"
-            className="text-sm text-gray-400 hover:text-white transition-colors"
-          >
+          <Link href="/" className="auth-link">
             العودة إلى الصفحة الرئيسية
           </Link>
         </div>

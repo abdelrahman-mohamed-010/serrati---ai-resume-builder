@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/input-otp";
 import Image from "next/image";
 import Logo from "@/public/images/logo.png";
+import { verifyOTP } from "../lib/supabaseAuth";
 
 export default function ConfirmOTP() {
   const [isLoading, setIsLoading] = useState(false);
@@ -24,25 +25,30 @@ export default function ConfirmOTP() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (value.length !== 6) {
+    if (value.length !== 6 || !email) {
       return;
     }
     setIsLoading(true);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      router.push("/dashboard");
+      const result = await verifyOTP(email, value);
+      if (result.success) {
+        router.push("/dashboard");
+      } else {
+        alert(result.message);
+      }
     } catch (error) {
+      alert("حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى.");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10 animate-pulse"></div>
+    <div className="auth-page">
+      <div className="auth-grid-background" />
       <motion.div
-        className="w-full max-w-md z-10"
+        className="auth-container"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -51,13 +57,11 @@ export default function ConfirmOTP() {
           <Link href="/" className="inline-block">
             <Image src={Logo} alt="Logo" className="h-14 w-auto" priority />
           </Link>
-          <h2 className="mt-6 text-2xl font-bold text-white">
-            تأكيد البريد الإلكتروني
-          </h2>
+          <h2 className="auth-heading">تأكيد البريد الإلكتروني</h2>
           <p className="mt-2 text-gray-400">تم إرسال رمز التحقق إلى {email}</p>
         </div>
 
-        <Card className="p-6 bg-gray-900 border border-gray-800 shadow-xl">
+        <Card className="auth-card">
           <form onSubmit={handleSubmit} className="">
             <InputOTP
               value={value}
@@ -108,6 +112,12 @@ export default function ConfirmOTP() {
             </Button>
           </div>
         </Card>
+
+        <div className="mt-8 text-center">
+          <Link href="/" className="auth-link">
+            العودة إلى الصفحة الرئيسية
+          </Link>
+        </div>
       </motion.div>
     </div>
   );
