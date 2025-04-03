@@ -9,8 +9,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import Image from "next/image";
 import Logo from "@/public/images/logo.png";
 import { useRouter, useSearchParams } from "next/navigation";
-import { updatePassword } from "../lib/supabaseAuth";
-import { PasswordInput } from "@/app/(auth)/components/PasswordInput";
+import { resetUserPassword } from "../../../actions/supabaseAuth";
+import { PasswordInput } from "@/components/auth/PasswordInput";
 
 interface FormErrors {
   password: string;
@@ -31,26 +31,39 @@ export default function ResetPassword() {
     confirmPassword: "",
     general: "",
   });
-
-  const code = searchParams?.get("code");
+  const [token, setToken] = useState("");
 
   useEffect(() => {
-    if (!code) {
+    console.log("Checking if we're in a valid password reset session");
+
+    const queryParams = new URLSearchParams(window.location.search);
+    if (!queryParams.has("code")) {
+      console.error("No reset code in URL");
       setIsCodeValid(false);
     }
-  }, [code]);
+
+    // Extract code from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const codeParam = urlParams.get("code") || searchParams?.get("code") || "";
+
+    console.log("Reset code in URL:", codeParam ? "Found" : "Not found");
+
+    if (!codeParam) {
+      setIsCodeValid(false);
+    } else {
+      setToken(codeParam); // Store the token for later use
+    }
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Reset errors
     setFormErrors({
       password: "",
       confirmPassword: "",
       general: "",
     });
 
-    // Validate
     let hasError = false;
     const errors: FormErrors = {
       password: "",
@@ -81,12 +94,13 @@ export default function ResetPassword() {
 
     setIsLoading(true);
     try {
-      const result = await updatePassword(password);
+      // Pass the token we extracted from the URL
+      console.log("Submitting with token:", token ? "Valid token" : "No token");
+      const result = await resetUserPassword(password, token);
       if (result.success) {
         setIsSuccess(true);
-        // Redirect to sign in page after a delay
         setTimeout(() => {
-          router.push("/sign-in");
+          router.push("/dashboard"); // was "/sign-in"
         }, 3000);
       } else {
         setFormErrors((prev) => ({
@@ -96,6 +110,7 @@ export default function ResetPassword() {
         }));
       }
     } catch (error) {
+      console.error("Reset password error:", error);
       setFormErrors((prev) => ({
         ...prev,
         general: "حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى.",
@@ -143,8 +158,7 @@ export default function ResetPassword() {
             >
               <Alert className="bg-secondary/20 border-secondary text-white mb-4">
                 <AlertDescription>
-                  تم إعادة تعيين كلمة المرور بنجاح. سيتم توجيهك إلى صفحة تسجيل
-                  الدخول.
+                  تم إعادة تعيين كلمة المرور بنجاح. سيتم توجيهك إلى لوحة التحكم.
                 </AlertDescription>
               </Alert>
             </motion.div>

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/input-otp";
 import Image from "next/image";
 import Logo from "@/public/images/logo.png";
-import { verifyOTP } from "../lib/supabaseAuth";
+import { verifyOTP } from "../../../actions/supabaseAuth";
 
 export default function ConfirmOTP() {
   const [isLoading, setIsLoading] = useState(false);
@@ -37,6 +37,7 @@ export default function ConfirmOTP() {
       } else {
         alert(result.message);
       }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       alert("حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى.");
     } finally {

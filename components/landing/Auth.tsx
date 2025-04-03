@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { signOut, getUser } from "../../app/(auth)/lib/supabaseAuth";
+import { signOut, getUser } from "../../actions/supabaseAuth";
 import useSWR, { mutate } from "swr";
 
 interface AuthProps {

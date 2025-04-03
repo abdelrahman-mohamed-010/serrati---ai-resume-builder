@@ -4,15 +4,24 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
-  // Check if this is a password reset request coming to the root URL
+  // Check for password reset tokens in various formats
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
+  const token = url.searchParams.get("token");
   const type = url.searchParams.get("type");
 
-  // If there's a code parameter and we're at the root, redirect to the reset-password page
-  if (url.pathname === "/" && code && type === "recovery") {
+  // Handle password reset links coming to root
+  if (
+    url.pathname === "/" &&
+    ((code && type === "recovery") ||
+      (token && type === "recovery") ||
+      (code && !type)) // Fallback for older links
+  ) {
+    console.log("Redirecting recovery link to reset-password page");
+    // Pass all parameters
+    const params = new URLSearchParams(url.search);
     return NextResponse.redirect(
-      new URL(`/reset-password?code=${code}`, request.url)
+      new URL(`/reset-password?${params}`, request.url)
     );
   }
 

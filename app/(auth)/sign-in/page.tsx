@@ -10,8 +10,12 @@ import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import Logo from "@/public/images/logo.png";
 import { useRouter } from "next/navigation";
-import { signIn } from "../lib/supabaseAuth";
-import { PasswordInput } from "@/app/(auth)/components/PasswordInput";
+import {
+  signIn,
+  signInWithGithub,
+  signInWithGoogle,
+} from "../../../actions/supabaseAuth";
+import { PasswordInput } from "@/components/auth/PasswordInput";
 
 interface FormErrors {
   email: string;
@@ -72,6 +76,7 @@ export default function SignIn() {
             result.message || "حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى.",
         }));
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       setFormErrors((prev) => ({
         ...prev,
@@ -79,6 +84,20 @@ export default function SignIn() {
       }));
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleGithubSignIn = async () => {
+    const result = await signInWithGithub();
+    if (result.success && result.url) {
+      window.location.href = result.url;
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    const result = await signInWithGoogle();
+    if (result.success && result.url) {
+      window.location.href = result.url;
     }
   };
 
@@ -168,13 +187,13 @@ export default function SignIn() {
               <Button
                 variant="outline"
                 className="border-gray-700 hover:bg-gray-800 hover:text-white"
+                onClick={handleGoogleSignIn}
               >
                 <svg
                   viewBox="0 0 24 24"
                   width="20"
                   height="20"
                   className="ml-2"
-                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
                     d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -198,6 +217,7 @@ export default function SignIn() {
               <Button
                 variant="outline"
                 className="border-gray-700 hover:bg-gray-800 hover:text-white"
+                onClick={handleGithubSignIn}
               >
                 <Github className="ml-2 h-5 w-5" />
                 جيتهب

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
-import { TermsList } from "./components/terms-list";
+import { TermsList } from "../../components/terms/terms-list";
 
 export default function TermsPage() {
   return (

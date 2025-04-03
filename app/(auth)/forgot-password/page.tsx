@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import Image from "next/image";
 import Logo from "@/public/images/logo.png";
-import { resetPassword } from "../lib/supabaseAuth";
+import { resetPassword } from "../../../actions/supabaseAuth";
 
 interface FormErrors {
   email: string;
@@ -62,6 +62,7 @@ export default function ForgotPassword() {
             result.message || "حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى.",
         }));
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       setFormErrors((prev) => ({
         ...prev,
