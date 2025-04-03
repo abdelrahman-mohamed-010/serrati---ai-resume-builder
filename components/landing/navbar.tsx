@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import Auth from "./Auth";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,8 +14,16 @@ export function Navbar() {
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between h-16 items-center">
           <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <h1 className="text-2xl font-bold text-secondary">سيرتي</h1>
+            <div className="flex gap-2">
+              <Link href="/">
+                <h1 className="text-xl font-raqaa text-gray-700">سيرتي</h1>
+              </Link>
+              <img
+                security="true"
+                src="/images/logo.png"
+                alt="Logo"
+                className="h-8 -translate-y-0.5 w-auto"
+              />
             </div>
           </div>
           <div className="hidden md:flex items-center gap-5 mr-8">
@@ -37,13 +46,8 @@ export function Navbar() {
               من نحن
             </Link>
           </div>
-          <div className="hidden md:flex items-center gap-2">
-            <Link href="/login">
-              <Button variant="outline">تسجيل الدخول</Button>
-            </Link>
-            <Link href="/register">
-              <Button>إنشاء حساب</Button>
-            </Link>
+          <div className="hidden md:block">
+            <Auth />
           </div>
           <Button
             className="md:hidden"
@@ -85,16 +89,7 @@ export function Navbar() {
             >
               من نحن
             </Link>
-            <div className="flex flex-col gap-2">
-              <Link href="/register" onClick={() => setIsMenuOpen(false)}>
-                <Button className="w-full">إنشاء حساب</Button>
-              </Link>
-              <Link href="/login" onClick={() => setIsMenuOpen(false)}>
-                <Button variant="outline" className="w-full">
-                  تسجيل الدخول
-                </Button>
-              </Link>
-            </div>
+            <Auth variant="mobile" />
           </nav>
         </div>
       )}
