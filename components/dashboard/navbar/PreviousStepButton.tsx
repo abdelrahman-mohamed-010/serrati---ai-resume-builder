@@ -1,7 +1,15 @@
-import React from 'react'
+import { Button } from "@/components/ui/button";
+import { Redo } from "lucide-react";
+import React from "react";
 
-const PreviousStepButton = () => {
-  return <div>PreviousStepButton</div>;
-}
+const NextStepButton = () => {
+  return (
+    <>
+      <Button variant="unstyled" className=" p-0 m-0">
+        <Redo className=" w-6" />
+      </Button>
+    </>
+  );
+};
 
-export default PreviousStepButton
+export default NextStepButton;
