@@ -16,7 +16,7 @@ export function Navbar() {
           <div className="flex items-center">
             <div className="flex gap-2">
               <Link href="/">
-                <h1 className="text-xl font-raqaa text-gray-700">سيرتي</h1>
+                <h1 className="text-2xl font-raqaa text-gray-700">سيرتي</h1>
               </Link>
               <img
                 security="true"
