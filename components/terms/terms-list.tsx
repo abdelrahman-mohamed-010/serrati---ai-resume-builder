@@ -1,5 +1,5 @@
-import { TermSection } from "../../../components/terms/term-section";
-import { termsContent } from "../../../data/terms-content";
+import { TermSection } from "./term-section";
+import { termsContent } from "../../data/terms-content";
 
 export function TermsList() {
   return (
