@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -17,6 +17,14 @@ import Logo from "@/public/images/logo.png";
 import { verifyOTP } from "../../../actions/supabaseAuth";
 
 export default function ConfirmOTP() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ConfirmOTPContent />
+    </Suspense>
+  );
+}
+
+function ConfirmOTPContent() {
   const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState("");
   const router = useRouter();
@@ -37,7 +45,7 @@ export default function ConfirmOTP() {
       } else {
         alert(result.message);
       }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       alert("حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى.");
     } finally {

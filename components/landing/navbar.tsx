@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import Auth from "./Auth";
 
@@ -18,10 +19,11 @@ export function Navbar() {
               <Link href="/">
                 <h1 className="text-2xl font-raqaa text-gray-700">سيرتي</h1>
               </Link>
-              <img
-                security="true"
+              <Image
                 src="/images/logo.png"
                 alt="Logo"
+                width={32}
+                height={32}
                 className="h-8 -translate-y-0.5 w-auto"
               />
             </div>
