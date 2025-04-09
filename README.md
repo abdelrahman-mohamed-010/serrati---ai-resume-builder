@@ -5,7 +5,6 @@ Serrati (سيرتي) is a modern AI-powered resume builder designed specifically
 ## 🚀 Live Demo
 
 🔗 [Visit Serrati](https://serrati.vercel.app/)  
-_(replace with your actual deployed link)_
 
 ---
 
