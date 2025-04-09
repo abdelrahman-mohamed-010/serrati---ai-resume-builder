@@ -17,7 +17,7 @@ _(replace with your actual deployed link)_
 - **Supabase** – Backend-as-a-Service (BaaS) using PostgreSQL
 - **Shadcn UI** – Beautiful, accessible components
 - **Framer Motion** – Smooth animations
-- **Stripe** – Payment handling for subscriptions (if included)
+- **Stripe** – Payment handling for subscriptions
 
 ---
 
