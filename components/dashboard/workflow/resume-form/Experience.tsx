@@ -30,7 +30,7 @@ export default function Experience() {
     <div className="space-y-4 animate-fade-in">
       <h2 className="text-xl font-semibold mb-4">الخبرات المهنية</h2>
       {experiences.map((exp) => (
-        <div key={exp.id} className="space-y-2 p-4 border rounded-lg relative">
+        <div key={exp.id} className="space-y-4 p-4 border rounded-lg relative">
           <Button
             onClick={() => removeExperience(exp.id)}
             variant="ghost"
@@ -68,11 +68,7 @@ export default function Experience() {
               content={exp.description}
               onChange={(content) => updateDescription(exp.id, content)}
             />
-            <Button
-              variant="secondary"
-              size="sm"
-              className="mt-2"
-            >
+            <Button variant="secondary" size="sm" className="mt-2">
               توليد وصف باستخدام الذكاء الاصطناعي
             </Button>
           </div>

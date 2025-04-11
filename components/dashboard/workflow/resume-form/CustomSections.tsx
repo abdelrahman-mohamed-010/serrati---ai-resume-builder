@@ -35,7 +35,7 @@ export default function CustomSections() {
     <div className="space-y-4 animate-fade-in">
       <h2 className="text-xl font-semibold mb-4">أقسام مخصصة</h2>
       {sections.map((section) => (
-        <div key={section.id} className="space-y-2 p-4 border rounded-lg">
+        <div key={section.id} className="space-y-4 p-4 border rounded-lg">
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
               عنوان القسم

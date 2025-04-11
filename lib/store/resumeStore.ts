@@ -12,7 +12,9 @@ export const useResumeStore = create<ResumeStore>((set) => ({
   experiences: [
     { id: 1, company: "", title: "", duration: "", description: "" },
   ],
-  education: [{ institution: "", degree: "", graduationYear: "" }],
+  education: [
+    { id: 1, institution: "", degree: "", graduationYear: "", skills: "" },
+  ],
   skills: "",
   customSections: [{ title: "", content: "" }],
   fontSize: "medium",
@@ -71,9 +73,28 @@ export const useResumeStore = create<ResumeStore>((set) => ({
     set((state) => ({
       education: [
         ...state.education,
-        { institution: "", degree: "", graduationYear: "" },
+        {
+          id: Date.now(),
+          institution: "",
+          degree: "",
+          graduationYear: "",
+          skills: "",
+        },
       ],
     })),
+
+  removeEducation: (id) =>
+    set((state) => ({
+      education: state.education.filter((edu) => edu.id !== id),
+    })),
+
+  updateEducation: (id, field, value) =>
+    set((state) => ({
+      education: state.education.map((edu) =>
+        edu.id === id ? { ...edu, [field]: value } : edu
+      ),
+    })),
+
   updateSkills: (skills) => set({ skills }),
 
   addCustomSection: () =>
