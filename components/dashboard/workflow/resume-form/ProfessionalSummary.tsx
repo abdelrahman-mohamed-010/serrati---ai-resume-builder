@@ -1,14 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { RichTextEditor } from "@/components/ui/rich-text-editor";
+import { useResumeStore } from "@/lib/store/resumeStore";
+import useDebounce from "@/lib/hooks/useDebounce";
 
 export default function ProfessionalSummary() {
+  const { professionalSummary, setProfessionalSummary } = useResumeStore();
   const [loading, setLoading] = useState(false);
-  const [summary, setSummary] = useState("");
+  const [summary, setSummary] = useState(professionalSummary || "");
+  const debouncedSummary = useDebounce(summary, 600);
+
+  useEffect(() => {
+    setProfessionalSummary(debouncedSummary);
+  }, [debouncedSummary, setProfessionalSummary]);
 
   const generateAISuggestion = async () => {
     setLoading(true);
-    // Placeholder for AI integration
     await new Promise((resolve) => setTimeout(resolve, 1000));
     setLoading(false);
   };
