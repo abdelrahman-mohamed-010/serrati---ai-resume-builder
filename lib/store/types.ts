@@ -47,6 +47,11 @@ export interface ResumeStore {
   setProfessionalSummary: (summary: string) => void;
   addExperience: () => void;
   removeExperience: (id: number) => void;
+  updateExperience: (
+    id: number,
+    field: keyof Omit<Experience, "id">,
+    value: string
+  ) => void;
   updateExperienceDescription: (id: number, content: string) => void;
 
   addEducation: () => void;
@@ -68,4 +73,5 @@ export interface ResumeStore {
   removeCustomSection: (id: number) => void;
 
   setFontSize: (size: FontSize) => void;
+  setExperiences: (experiences: Experience[]) => void;
 }

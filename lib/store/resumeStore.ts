@@ -62,12 +62,19 @@ export const useResumeStore = create<ResumeStore>((set) => ({
     set((state) => ({
       experiences: state.experiences.filter((exp) => exp.id !== id),
     })),
+  updateExperience: (id, field, value) =>
+    set((state) => ({
+      experiences: state.experiences.map((exp) =>
+        exp.id === id ? { ...exp, [field]: value } : exp
+      ),
+    })),
   updateExperienceDescription: (id, content) =>
     set((state) => ({
       experiences: state.experiences.map((exp) =>
         exp.id === id ? { ...exp, description: content } : exp
       ),
     })),
+  setExperiences: (experiences) => set({ experiences }),
 
   addEducation: () =>
     set((state) => ({
