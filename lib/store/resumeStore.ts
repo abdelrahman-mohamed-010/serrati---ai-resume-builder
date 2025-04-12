@@ -12,7 +12,9 @@ export const useResumeStore = create<ResumeStore>((set) => ({
   experiences: [
     { id: 1, company: "", title: "", duration: "", description: "" },
   ],
-  education: [{ institution: "", degree: "", graduationYear: "" }],
+  education: [
+    { id: 1, institution: "", degree: "", graduationYear: "", skills: "" },
+  ],
   skills: "",
   customSections: [{ title: "", content: "" }],
   fontSize: "medium",
@@ -60,20 +62,48 @@ export const useResumeStore = create<ResumeStore>((set) => ({
     set((state) => ({
       experiences: state.experiences.filter((exp) => exp.id !== id),
     })),
+  updateExperience: (id, field, value) =>
+    set((state) => ({
+      experiences: state.experiences.map((exp) =>
+        exp.id === id ? { ...exp, [field]: value } : exp
+      ),
+    })),
   updateExperienceDescription: (id, content) =>
     set((state) => ({
       experiences: state.experiences.map((exp) =>
         exp.id === id ? { ...exp, description: content } : exp
       ),
     })),
+  setExperiences: (experiences) => set({ experiences }),
 
   addEducation: () =>
     set((state) => ({
       education: [
         ...state.education,
-        { institution: "", degree: "", graduationYear: "" },
+        {
+          id: Date.now(),
+          institution: "",
+          degree: "",
+          graduationYear: "",
+          skills: "",
+        },
       ],
     })),
+
+  removeEducation: (id) =>
+    set((state) => ({
+      education: state.education.filter((edu) => edu.id !== id),
+    })),
+
+  updateEducation: (id, field, value) =>
+    set((state) => ({
+      education: state.education.map((edu) =>
+        edu.id === id ? { ...edu, [field]: value } : edu
+      ),
+    })),
+
+  setEducation: (education) => set({ education }),
+
   updateSkills: (skills) => set({ skills }),
 
   addCustomSection: () =>
@@ -90,6 +120,8 @@ export const useResumeStore = create<ResumeStore>((set) => ({
     set((state) => ({
       customSections: state.customSections.filter((_, index) => index !== id),
     })),
+
+  setCustomSections: (customSections) => set({ customSections }),
 
   setFontSize: (size) => set({ fontSize: size }),
 }));

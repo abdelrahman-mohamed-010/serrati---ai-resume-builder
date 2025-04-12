@@ -12,9 +12,11 @@ export type Experience = {
 };
 
 export type Education = {
+  id: number;
   institution: string;
   degree: string;
   graduationYear: string;
+  skills: string;
 };
 
 export type CustomSection = {
@@ -45,9 +47,22 @@ export interface ResumeStore {
   setProfessionalSummary: (summary: string) => void;
   addExperience: () => void;
   removeExperience: (id: number) => void;
+  updateExperience: (
+    id: number,
+    field: keyof Omit<Experience, "id">,
+    value: string
+  ) => void;
   updateExperienceDescription: (id: number, content: string) => void;
 
   addEducation: () => void;
+  removeEducation: (id: number) => void;
+  updateEducation: (
+    id: number,
+    field: keyof Omit<Education, "id">,
+    value: string
+  ) => void;
+  setEducation: (education: Education[]) => void;
+
   updateSkills: (skills: string) => void;
 
   addCustomSection: () => void;
@@ -57,6 +72,8 @@ export interface ResumeStore {
     value: string
   ) => void;
   removeCustomSection: (id: number) => void;
+  setCustomSections: (customSections: CustomSection[]) => void;
 
   setFontSize: (size: FontSize) => void;
+  setExperiences: (experiences: Experience[]) => void;
 }

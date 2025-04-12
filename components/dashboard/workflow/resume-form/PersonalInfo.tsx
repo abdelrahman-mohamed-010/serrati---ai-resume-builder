@@ -1,23 +1,34 @@
-import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Plus, Trash2, Link as LinkIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { SocialLinks } from "./SocialLinks";
+import useDebounce from "@/lib/hooks/useDebounce";
+import { useResumeStore } from "@/lib/store/resumeStore";
+import { useState, useEffect } from "react";
 
 const inputStyles =
   "shadow-sm bg-white border-gray-200 focus:border-primary/50 focus:ring-2 focus:ring-primary/25";
 
 export default function PersonalInfo() {
-  const [socialLinks, setSocialLinks] = useState<
-    { platform: string; url: string }[]
-  >([{ platform: "", url: "" }]); // Initialize with one empty link
+  const { personalInfo, setPersonalInfo } = useResumeStore();
 
-  const handleAddSocialLink = () => {
-    setSocialLinks([...socialLinks, { platform: "", url: "" }]);
-  };
+  const [name, setName] = useState(personalInfo.name || "");
+  const [email, setEmail] = useState(personalInfo.email || "");
+  const [phone, setPhone] = useState(personalInfo.phone || "");
 
-  const handleRemoveSocialLink = (index: number) => {
-    setSocialLinks(socialLinks.filter((_, i) => i !== index));
-  };
+  const debouncedName = useDebounce(name, 600);
+  const debouncedEmail = useDebounce(email, 600);
+  const debouncedPhone = useDebounce(phone, 600);
+
+  useEffect(() => {
+    setPersonalInfo({ name: debouncedName });
+  }, [debouncedName, setPersonalInfo]);
+
+  useEffect(() => {
+    setPersonalInfo({ email: debouncedEmail });
+  }, [debouncedEmail, setPersonalInfo]);
+
+  useEffect(() => {
+    setPersonalInfo({ phone: debouncedPhone });
+  }, [debouncedPhone, setPersonalInfo]);
 
   return (
     <div className="space-y-4 animate-fade-in">
@@ -26,7 +37,12 @@ export default function PersonalInfo() {
         <label className="block mb-2 text-sm font-medium text-gray-700">
           الاسم الكامل
         </label>
-        <Input placeholder="مثال: محمد أحمد" className={inputStyles} />
+        <Input
+          placeholder="مثال: محمد أحمد"
+          className={inputStyles}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
       </div>
       <div>
         <label className="block mb-2 text-sm font-medium text-gray-700">
@@ -36,57 +52,23 @@ export default function PersonalInfo() {
           type="email"
           placeholder="example@domain.com"
           className={inputStyles}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
       </div>
       <div>
         <label className="block mb-2 text-sm font-medium text-gray-700">
           رقم الهاتف
         </label>
-        <Input placeholder="+20 1XX XXX XXXX" className={inputStyles} />
+        <Input
+          placeholder="+20 1XX XXX XXXX"
+          className={inputStyles}
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+        />
       </div>
 
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="font-medium text-gray-700">روابط التواصل الاجتماعي</h3>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={handleAddSocialLink}
-            className="flex items-center gap-2"
-          >
-            <Plus className="h-4 w-4" />
-            إضافة رابط
-          </Button>
-        </div>
-
-        {socialLinks.map((_, index) => (
-          <div key={index} className="flex gap-2">
-            <div className="flex-1">
-              <Input
-                placeholder="LinkedIn، GitHub، موقع شخصي"
-                className={`mb-2 ${inputStyles}`}
-              />
-              <div className="relative">
-                <LinkIcon className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-                <Input
-                  placeholder="https://..."
-                  className={`pl-10 ${inputStyles}`}
-                />
-              </div>
-            </div>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              onClick={() => handleRemoveSocialLink(index)}
-              className="h-10 w-10 text-red-500 hover:text-red-600 hover:bg-red-50"
-            >
-              <Trash2 className="h-5 w-5" />
-            </Button>
-          </div>
-        ))}
-      </div>
+      <SocialLinks />
     </div>
   );
 }

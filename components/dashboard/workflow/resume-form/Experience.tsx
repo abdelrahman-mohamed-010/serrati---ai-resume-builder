@@ -1,27 +1,57 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RichTextEditor } from "@/components/ui/rich-text-editor";
+import { useResumeStore } from "@/lib/store/resumeStore";
 import { Plus, Trash2 } from "lucide-react";
+import useDebounce from "@/lib/hooks/useDebounce";
+import { Experience as ExperienceType } from "@/lib/store/types";
 
 const inputStyles =
   "shadow-sm bg-white border-gray-200 focus:border-primary/50 focus:ring-2 focus:ring-primary/25";
 
 export default function Experience() {
-  const [experiences, setExperiences] = useState([{ id: 1, description: "" }]);
+  const { experiences } = useResumeStore();
+  const [experienceItems, setExperienceItems] = useState<ExperienceType[]>(
+    experiences?.length
+      ? experiences
+      : [
+          {
+            id: Date.now(),
+            company: "",
+            title: "",
+            duration: "",
+            description: "",
+          },
+        ]
+  );
+
+  const debouncedExperiences = useDebounce(experienceItems, 600);
+  const { setExperiences } = useResumeStore();
+
+  useEffect(() => {
+    setExperiences(debouncedExperiences);
+  }, [debouncedExperiences, setExperiences]);
 
   const addExperience = () => {
-    setExperiences([...experiences, { id: Date.now(), description: "" }]);
+    setExperienceItems([
+      ...experienceItems,
+      { id: Date.now(), company: "", title: "", duration: "", description: "" },
+    ]);
   };
 
   const removeExperience = (id: number) => {
-    setExperiences(experiences.filter((exp) => exp.id !== id));
+    setExperienceItems(experienceItems.filter((exp) => exp.id !== id));
   };
 
-  const updateDescription = (id: number, content: string) => {
-    setExperiences(
-      experiences.map((exp) =>
-        exp.id === id ? { ...exp, description: content } : exp
+  const updateExperience = (
+    id: number,
+    field: keyof Omit<ExperienceType, "id">,
+    value: string
+  ) => {
+    setExperienceItems(
+      experienceItems.map((exp) =>
+        exp.id === id ? { ...exp, [field]: value } : exp
       )
     );
   };
@@ -29,8 +59,8 @@ export default function Experience() {
   return (
     <div className="space-y-4 animate-fade-in">
       <h2 className="text-xl font-semibold mb-4">الخبرات المهنية</h2>
-      {experiences.map((exp) => (
-        <div key={exp.id} className="space-y-2 p-4 border rounded-lg relative">
+      {experienceItems.map((exp) => (
+        <div key={exp.id} className="space-y-4 p-4 border rounded-lg relative">
           <Button
             onClick={() => removeExperience(exp.id)}
             variant="ghost"
@@ -46,19 +76,37 @@ export default function Experience() {
             <Input
               placeholder="مثال: شركة التقنية المتقدمة"
               className={inputStyles}
+              value={exp.company}
+              onChange={(e) =>
+                updateExperience(exp.id, "company", e.target.value)
+              }
             />
           </div>
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
               المسمى الوظيفي
             </label>
-            <Input placeholder="مثال: مطور برمجيات" className={inputStyles} />
+            <Input
+              placeholder="مثال: مطور برمجيات"
+              className={inputStyles}
+              value={exp.title}
+              onChange={(e) =>
+                updateExperience(exp.id, "title", e.target.value)
+              }
+            />
           </div>
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
               الفترة الزمنية
             </label>
-            <Input placeholder="مثال: 2020 - 2023" className={inputStyles} />
+            <Input
+              placeholder="مثال: 2020 - 2023"
+              className={inputStyles}
+              value={exp.duration}
+              onChange={(e) =>
+                updateExperience(exp.id, "duration", e.target.value)
+              }
+            />
           </div>
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
@@ -66,13 +114,11 @@ export default function Experience() {
             </label>
             <RichTextEditor
               content={exp.description}
-              onChange={(content) => updateDescription(exp.id, content)}
+              onChange={(content) =>
+                updateExperience(exp.id, "description", content)
+              }
             />
-            <Button
-              variant="secondary"
-              size="sm"
-              className="mt-2"
-            >
+            <Button variant="secondary" size="sm" className="mt-2">
               توليد وصف باستخدام الذكاء الاصطناعي
             </Button>
           </div>

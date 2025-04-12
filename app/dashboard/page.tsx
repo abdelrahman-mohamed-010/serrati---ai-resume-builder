@@ -1,7 +1,7 @@
 "use client";
 
 import { Sidebar } from "@/components/dashboard/workflow/sidebar/Sidebar";
-import { ResumeUploader } from "@/components/dashboard/workflow/ResumeUploader";
+import { ResumeUploader } from "@/components/dashboard/importExistingResume/ResumeUploader";
 import ResumeForm from "@/components/dashboard/workflow/resume-form/ResumeForm";
 
 export default function Dashboard() {
