@@ -61,6 +61,7 @@ export interface ResumeStore {
     field: keyof Omit<Education, "id">,
     value: string
   ) => void;
+  setEducation: (education: Education[]) => void;
 
   updateSkills: (skills: string) => void;
 
@@ -71,6 +72,7 @@ export interface ResumeStore {
     value: string
   ) => void;
   removeCustomSection: (id: number) => void;
+  setCustomSections: (customSections: CustomSection[]) => void;
 
   setFontSize: (size: FontSize) => void;
   setExperiences: (experiences: Experience[]) => void;

@@ -102,6 +102,8 @@ export const useResumeStore = create<ResumeStore>((set) => ({
       ),
     })),
 
+  setEducation: (education) => set({ education }),
+
   updateSkills: (skills) => set({ skills }),
 
   addCustomSection: () =>
@@ -118,6 +120,8 @@ export const useResumeStore = create<ResumeStore>((set) => ({
     set((state) => ({
       customSections: state.customSections.filter((_, index) => index !== id),
     })),
+
+  setCustomSections: (customSections) => set({ customSections }),
 
   setFontSize: (size) => set({ fontSize: size }),
 }));

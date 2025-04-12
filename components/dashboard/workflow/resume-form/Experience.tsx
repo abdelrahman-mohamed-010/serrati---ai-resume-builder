@@ -31,7 +31,6 @@ export default function Experience() {
 
   useEffect(() => {
     setExperiences(debouncedExperiences);
-    console.log(useResumeStore.getState().experiences);
   }, [debouncedExperiences, setExperiences]);
 
   const addExperience = () => {
