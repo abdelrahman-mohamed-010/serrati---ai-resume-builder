@@ -3,6 +3,7 @@
 import { Sidebar } from "@/components/dashboard/workflow/sidebar/Sidebar";
 import { ResumeUploader } from "@/components/dashboard/importExistingResume/ResumeUploader";
 import ResumeForm from "@/components/dashboard/workflow/resume-form/ResumeForm";
+import { ResumePreview } from "@/components/dashboard/preview/ResumePreview";
 
 export default function Dashboard() {
   return (
@@ -15,12 +16,7 @@ export default function Dashboard() {
           <ResumeUploader />
           <ResumeForm />
         </div>
-        <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
-          <h2 className="text-base font-semibold mb-3">المعاينة</h2>
-          <div className="bg-gray-50 rounded border border-gray-200 h-[400px] flex items-center justify-center">
-            <p className="text-gray-500">معاينة السيرة الذاتية</p>
-          </div>
-        </div>
+        <ResumePreview />
       </div>
     </div>
   );
