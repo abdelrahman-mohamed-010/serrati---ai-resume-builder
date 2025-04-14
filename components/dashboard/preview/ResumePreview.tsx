@@ -7,6 +7,7 @@ import {
   CreativeTemplate,
 } from "@/components/dashboard/resumeTemplates";
 import { useResumeStore } from "@/lib/store/resumeStore";
+import Pagination from "./ResumePagination";
 
 export const ResumePreview: React.FC = () => {
   const { template } = useResumeStore();
@@ -41,6 +42,9 @@ export const ResumePreview: React.FC = () => {
           >
             {renderTemplate()}
           </div>
+        </div>
+        <div className="flex justify-center mt-1">
+          <Pagination />
         </div>
       </div>
     </div>
