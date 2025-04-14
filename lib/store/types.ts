@@ -26,6 +26,13 @@ export type CustomSection = {
 
 export type FontSize = "small" | "medium" | "large";
 
+export type TemplateType =
+  | "classic"
+  | "modern"
+  | "minimalist"
+  | "executive"
+  | "creative";
+
 export interface ResumeStore {
   personalInfo: {
     name: string;
@@ -39,6 +46,7 @@ export interface ResumeStore {
   skills: string;
   customSections: CustomSection[];
   fontSize: FontSize;
+  template: TemplateType;
 
   setPersonalInfo: (info: Partial<ResumeStore["personalInfo"]>) => void;
   addSocialLink: () => void;
@@ -75,5 +83,6 @@ export interface ResumeStore {
   setCustomSections: (customSections: CustomSection[]) => void;
 
   setFontSize: (size: FontSize) => void;
+  setTemplate: (template: TemplateType) => void;
   setExperiences: (experiences: Experience[]) => void;
 }

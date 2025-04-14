@@ -14,9 +14,9 @@ const ModernTemplate: React.FC = () => {
   } = useResumeStore();
 
   const fontSizeClass = {
-    small: { body: "text-sm", heading: "text-lg" },
-    medium: { body: "text-base", heading: "text-xl" },
-    large: { body: "text-lg", heading: "text-2xl" },
+    small: { body: "text-[0.75rem]", heading: "text-[1rem]" }, // 9pt body, 12pt headings
+    medium: { body: "text-[0.833rem]", heading: "text-[1.083rem]" }, // 10pt body, 13pt headings
+    large: { body: "text-[0.917rem]", heading: "text-[1.167rem]" }, // 11pt body, 14pt headings
   }[fontSize];
 
   // Sanitize HTML content

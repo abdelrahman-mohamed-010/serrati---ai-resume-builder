@@ -1,15 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
+import { useResumeStore } from "@/lib/store/resumeStore";
 
 export const FontSizePicker: React.FC = () => {
-  const [currentSize, setCurrentSize] = useState("md");
+  const { fontSize, setFontSize } = useResumeStore();
 
   const fontSizes = [
-    { id: "sm", label: "صغير", value: "14px" },
-    { id: "md", label: "متوسط", value: "16px" },
-    { id: "lg", label: "كبير", value: "18px" },
+    { id: "small", label: "صغير", value: "14px" },
+    { id: "medium", label: "متوسط", value: "16px" },
+    { id: "large", label: "كبير", value: "18px" },
   ];
 
   return (
@@ -19,9 +20,9 @@ export const FontSizePicker: React.FC = () => {
         {fontSizes.map((size) => (
           <Button
             key={size.id}
-            variant={currentSize === size.id ? "default" : "outline"}
+            variant={fontSize === size.id ? "default" : "outline"}
             size="sm"
-            onClick={() => setCurrentSize(size.id)}
+            onClick={() => setFontSize(size.id as "small" | "medium" | "large")}
             className="text-xs font-medium"
           >
             {size.label}

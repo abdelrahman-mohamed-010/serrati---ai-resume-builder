@@ -13,119 +13,202 @@ const ClassicTemplate: React.FC = () => {
   } = useResumeStore();
 
   const fontSizeClass = {
-    small: { body: "text-sm", heading: "text-lg" },
-    medium: { body: "text-base", heading: "text-xl" },
-    large: { body: "text-lg", heading: "text-2xl" },
+    small: { body: "text-[0.75rem]", heading: "text-[1rem]" },
+    medium: { body: "text-[0.833rem]", heading: "text-[1.083rem]" }, 
+    large: { body: "text-[0.917rem]", heading: "text-[1.167rem]" }, 
   }[fontSize];
 
   return (
-    <div className="max-w-4xl mx-auto p-8 bg-white shadow-lg">
-      {/* Header */}
-      <header className="text-center mb-8 pb-4 border-b-2">
-        <h1 className={`${fontSizeClass.heading} text-3xl font-bold mb-2`}>
-          {personalInfo.name || "Your Name"}
+    <div className="h-full flex flex-col">
+      {/* Header with Name */}
+      <header className="border-2  border-gray-800 rounded-t-lg p-6 text-center">
+        <h1 className={`${fontSizeClass.heading} font-bold`}>
+          {personalInfo.name || "أدخل اسمك"}
         </h1>
-        <div className="flex justify-center space-x-4">
-          {personalInfo.email && <span>{personalInfo.email}</span>}
-          {personalInfo.phone && <span>{personalInfo.phone}</span>}
-        </div>
-        {personalInfo.socialLinks.length > 0 && (
-          <div className="flex justify-center mt-2 space-x-3">
-            {personalInfo.socialLinks.map(
-              (link, index) =>
-                link.platform &&
-                link.url && (
-                  <a
-                    key={index}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 hover:underline"
-                  >
-                    {link.platform}
-                  </a>
-                )
-            )}
-          </div>
-        )}
       </header>
 
-      {/* Professional Summary */}
-      {professionalSummary && (
-        <section className="mb-6">
-          <h2 className={`${fontSizeClass.heading} font-semibold mb-2`}>
-            Professional Summary
-          </h2>
-          <p className={fontSizeClass.body}>{professionalSummary}</p>
-        </section>
-      )}
-
-      {/* Experience */}
-      {experiences.length > 0 && (
-        <section className="mb-6">
-          <h2 className={`${fontSizeClass.heading} font-semibold mb-2`}>
-            Experience
-          </h2>
-          {experiences.map((exp) => (
-            <div key={exp.id} className="mb-4">
-              <h3 className="font-medium">
-                {exp.title} at {exp.company}
-              </h3>
-              <p className="text-gray-600 italic">{exp.duration}</p>
-              <div
-                className={fontSizeClass.body}
-                dangerouslySetInnerHTML={{ __html: exp.description }}
-              />
+      {/* Main Content */}
+      <div className="flex flex-col md:flex-row flex-1">
+        {/* Right Column (Personal Info) - Order swapped for RTL support */}
+        <div className="w-full md:w-1/3 p-3 bg-gray-100 h-full">
+          {(personalInfo.email ||
+            personalInfo.phone ||
+            personalInfo.socialLinks.some(
+              (link) => link.platform && link.url
+            )) && (
+            <div className="mb-8">
+              <div className="space-y-3">
+                {personalInfo.email && (
+                  <div className="mb-3">
+                    <p className={`${fontSizeClass.body} font-semibold`}>
+                      Email
+                    </p>
+                    <p className={`${fontSizeClass.body} break-words`}>
+                      {personalInfo.email}
+                    </p>
+                  </div>
+                )}
+                {personalInfo.phone && (
+                  <div className="mb-3">
+                    <p className={`${fontSizeClass.body} font-semibold`}>
+                      Phone
+                    </p>
+                    <p className={`${fontSizeClass.body} break-words`}>
+                      {personalInfo.phone}
+                    </p>
+                  </div>
+                )}
+                {personalInfo.socialLinks.map(
+                  (link, index) =>
+                    link.platform &&
+                    link.url && (
+                      <div key={index} className="mb-3 leading-normal">
+                        <p
+                          className={`${fontSizeClass.body} font-semibold mb-0.5`}
+                        >
+                          {link.platform}
+                        </p>
+                        <a
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`${fontSizeClass.body} break-words leading-tight block`}
+                        >
+                          {link.url}
+                        </a>
+                      </div>
+                    )
+                )}
+              </div>
             </div>
-          ))}
-        </section>
-      )}
-
-      {/* Education */}
-      {education.length > 0 && (
-        <section className="mb-6">
-          <h2 className={`${fontSizeClass.heading} font-semibold mb-2`}>
-            Education
-          </h2>
-          {education.map((edu, index) => (
-            <div key={index} className="mb-2">
-              <h3 className="font-medium">{edu.degree}</h3>
-              <p>
-                {edu.institution}, {edu.graduationYear}
-              </p>
-            </div>
-          ))}
-        </section>
-      )}
-
-      {/* Skills */}
-      {skills && (
-        <section className="mb-6">
-          <h2 className={`${fontSizeClass.heading} font-semibold mb-2`}>
-            Skills
-          </h2>
-          <div
-            className={fontSizeClass.body}
-            dangerouslySetInnerHTML={{ __html: skills }}
-          />
-        </section>
-      )}
-
-      {/* Custom Sections */}
-      {customSections.map(
-        (section, index) =>
-          section.title && (
-            <section key={index} className="mb-6">
-              <h2 className={`${fontSizeClass.heading} font-semibold mb-2`}>
-                {section.title}
-              </h2>
+          )}
+        </div>
+        <div className="w-full md:w-2/3 p-6 border-l-0 md:border-l border-gray-200">
+          {/* Professional Summary */}
+          {professionalSummary && (
+            <section className="mb-8">
               <div
-                className={fontSizeClass.body}
-                dangerouslySetInnerHTML={{ __html: section.content }}
+                className={`${fontSizeClass.body} text-gray-700 leading-relaxed`}
+                dangerouslySetInnerHTML={{ __html: professionalSummary }}
               />
             </section>
-          )
-      )}
+          )}
+
+          {/* Experience */}
+          {experiences.length > 0 &&
+            experiences.some(
+              (exp) => exp.title || exp.company || exp.description
+            ) && (
+              <section className="mb-8">
+                <h2
+                  className={`${fontSizeClass.heading} font-bold text-center mb-6`}
+                >
+                  Work Experience
+                </h2>
+                {experiences.map(
+                  (exp) =>
+                    (exp.title || exp.company || exp.description) && (
+                      <div key={exp.id} className="mb-6">
+                        <div className="flex justify-between mb-1">
+                          <h3
+                            className={`${fontSizeClass.heading} font-semibold`}
+                          >
+                            {exp.title}
+                          </h3>
+                          <span
+                            className={`${fontSizeClass.body} text-gray-600`}
+                          >
+                            {exp.duration}
+                          </span>
+                        </div>
+                        <p className={`${fontSizeClass.body} mb-2`}>
+                          {exp.company}
+                        </p>
+                        <div
+                          className={`${fontSizeClass.body} text-gray-700`}
+                          dangerouslySetInnerHTML={{ __html: exp.description }}
+                        />
+                      </div>
+                    )
+                )}
+              </section>
+            )}
+
+          {/* Education */}
+          {education.length > 0 &&
+            education.some((edu) => edu.degree || edu.institution) && (
+              <section className="mb-8">
+                <h2
+                  className={`${fontSizeClass.heading} font-bold text-center mb-6`}
+                >
+                  Education
+                </h2>
+                {education.map(
+                  (edu) =>
+                    (edu.degree || edu.institution) && (
+                      <div key={edu.id} className="mb-4">
+                        <div className="flex justify-between mb-1">
+                          <h3
+                            className={`${fontSizeClass.heading} font-semibold`}
+                          >
+                            {edu.degree}
+                          </h3>
+                          <span
+                            className={`${fontSizeClass.body} text-gray-600`}
+                          >
+                            {edu.graduationYear}
+                          </span>
+                        </div>
+                        <p className={`${fontSizeClass.body}`}>
+                          {edu.institution}
+                        </p>
+                        {edu.skills && (
+                          <p
+                            className={`${fontSizeClass.body} text-gray-700 mt-1`}
+                          >
+                            {edu.skills}
+                          </p>
+                        )}
+                      </div>
+                    )
+                )}
+              </section>
+            )}
+
+          {/* Skills */}
+          {skills && (
+            <section className="mb-8">
+              <h2
+                className={`${fontSizeClass.heading} text-2xl font-bold text-center mb-6`}
+              >
+                Skills
+              </h2>
+              <div
+                className={`${fontSizeClass.body} text-gray-700`}
+                dangerouslySetInnerHTML={{ __html: skills }}
+              />
+            </section>
+          )}
+
+          {/* Custom Sections */}
+          {customSections.map(
+            (section, index) =>
+              section.title && (
+                <section key={index} className="mb-8">
+                  <h2
+                    className={`${fontSizeClass.heading} text-2xl font-bold text-center mb-6`}
+                  >
+                    {section.title}
+                  </h2>
+                  <div
+                    className={`${fontSizeClass.body} text-gray-700`}
+                    dangerouslySetInnerHTML={{ __html: section.content }}
+                  />
+                </section>
+              )
+          )}
+        </div>
+      </div>
     </div>
   );
 };
