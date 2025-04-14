@@ -31,9 +31,9 @@ const ClassicTemplate: React.FC = () => {
       </header>
 
       {/* Main Content */}
-      <div className="flex flex-col md:flex-row flex-1">
+      <div className="flex flex-row flex-1">
         {/* Right Column (Personal Info) - Order swapped for RTL support */}
-        <div className="w-full md:w-1/3 p-3 bg-gray-100 h-full">
+        <div className="w-1/3 p-3 bg-gray-100 h-full">
           {(personalInfo.email ||
             personalInfo.phone ||
             personalInfo.socialLinks.some(
@@ -86,12 +86,12 @@ const ClassicTemplate: React.FC = () => {
             </div>
           )}
         </div>
-        <div className="w-full md:w-2/3 p-6 border-l-0 md:border-l border-gray-200">
+        <div className="w-2/3 p-6 border-l border-gray-200">
           {/* Professional Summary */}
           {professionalSummary && (
             <section className="mb-8">
               <div
-                className={`${fontSizeClass.body} text-gray-700 leading-relaxed`}
+                className={`${fontSizeClass.body} text-gray-700 leading-relaxed break-words`}
                 dangerouslySetInnerHTML={{ __html: professionalSummary }}
               />
             </section>
@@ -128,7 +128,7 @@ const ClassicTemplate: React.FC = () => {
                           {exp.company}
                         </p>
                         <div
-                          className={`${fontSizeClass.body} text-gray-700`}
+                          className={`${fontSizeClass.body} text-gray-700  leading-relaxed break-words `}
                           dangerouslySetInnerHTML={{ __html: exp.description }}
                         />
                       </div>
