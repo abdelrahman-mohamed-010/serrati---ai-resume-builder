@@ -1,5 +1,7 @@
 import React from "react";
 import { useResumeStore } from "../../../lib/store/resumeStore";
+import { DirectionWrapper } from "@/components/ui/direction-wrapper";
+import { getTranslation } from "@/lib/utils/translations";
 
 const CreativeTemplate: React.FC = () => {
   const {
@@ -10,20 +12,21 @@ const CreativeTemplate: React.FC = () => {
     skills,
     customSections,
     fontSize,
+    language,
   } = useResumeStore();
 
   const fontSizeClass = {
-    small: { body: "text-[0.75rem]", heading: "text-[1rem]" }, // 9pt body, 12pt headings
-    medium: { body: "text-[0.833rem]", heading: "text-[1.083rem]" }, // 10pt body, 13pt headings
-    large: { body: "text-[0.917rem]", heading: "text-[1.167rem]" }, // 11pt body, 14pt headings
+    small: { body: "text-[0.75rem]", heading: "text-[1rem]" },
+    medium: { body: "text-[0.833rem]", heading: "text-[1.083rem]" },
+    large: { body: "text-[0.917rem]", heading: "text-[1.167rem]" },
   }[fontSize];
 
   return (
-    <div className="max-w-4xl mx-auto p-8 bg-white shadow-lg">
+    <DirectionWrapper className="max-w-4xl mx-auto p-8 bg-white shadow-lg">
       {/* Header */}
       <header className="text-center mb-8 pb-4 border-b-2">
         <h1 className={`${fontSizeClass.heading} text-3xl font-bold mb-2`}>
-          {personalInfo.name || "Your Name"}
+          {personalInfo.name || getTranslation("yourName", language)}
         </h1>
         <div className="flex justify-center space-x-4">
           {personalInfo.email && <span>{personalInfo.email}</span>}
@@ -54,7 +57,7 @@ const CreativeTemplate: React.FC = () => {
       {professionalSummary && (
         <section className="mb-6">
           <h2 className={`${fontSizeClass.heading} font-semibold mb-2`}>
-            Professional Summary
+            {getTranslation("professionalSummary", language)}
           </h2>
           <p className={fontSizeClass.body}>{professionalSummary}</p>
         </section>
@@ -64,7 +67,7 @@ const CreativeTemplate: React.FC = () => {
       {experiences.length > 0 && (
         <section className="mb-6">
           <h2 className={`${fontSizeClass.heading} font-semibold mb-2`}>
-            Experience
+            {getTranslation("workExperience", language)}
           </h2>
           {experiences.map((exp) => (
             <div key={exp.id} className="mb-4">
@@ -85,7 +88,7 @@ const CreativeTemplate: React.FC = () => {
       {education.length > 0 && (
         <section className="mb-6">
           <h2 className={`${fontSizeClass.heading} font-semibold mb-2`}>
-            Education
+            {getTranslation("education", language)}
           </h2>
           {education.map((edu, index) => (
             <div key={index} className="mb-2">
@@ -102,7 +105,7 @@ const CreativeTemplate: React.FC = () => {
       {skills && (
         <section className="mb-6">
           <h2 className={`${fontSizeClass.heading} font-semibold mb-2`}>
-            Skills
+            {getTranslation("skills", language)}
           </h2>
           <div
             className={fontSizeClass.body}
@@ -126,7 +129,7 @@ const CreativeTemplate: React.FC = () => {
             </section>
           )
       )}
-    </div>
+    </DirectionWrapper>
   );
 };
 

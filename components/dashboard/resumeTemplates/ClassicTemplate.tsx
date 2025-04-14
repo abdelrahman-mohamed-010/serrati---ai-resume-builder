@@ -1,5 +1,7 @@
 import React from "react";
 import { useResumeStore } from "../../../lib/store/resumeStore";
+import { DirectionWrapper } from "@/components/ui/direction-wrapper";
+import { getTranslation } from "@/lib/utils/translations";
 
 const ClassicTemplate: React.FC = () => {
   const {
@@ -10,20 +12,21 @@ const ClassicTemplate: React.FC = () => {
     skills,
     customSections,
     fontSize,
+    language,
   } = useResumeStore();
 
   const fontSizeClass = {
     small: { body: "text-[0.75rem]", heading: "text-[1rem]" },
-    medium: { body: "text-[0.833rem]", heading: "text-[1.083rem]" }, 
-    large: { body: "text-[0.917rem]", heading: "text-[1.167rem]" }, 
+    medium: { body: "text-[0.833rem]", heading: "text-[1.083rem]" },
+    large: { body: "text-[0.917rem]", heading: "text-[1.167rem]" },
   }[fontSize];
 
   return (
-    <div className="h-full flex flex-col">
+    <DirectionWrapper className="h-full flex flex-col">
       {/* Header with Name */}
       <header className="border-2  border-gray-800 rounded-t-lg p-6 text-center">
         <h1 className={`${fontSizeClass.heading} font-bold`}>
-          {personalInfo.name || "أدخل اسمك"}
+          {personalInfo.name || getTranslation("yourName", language)}
         </h1>
       </header>
 
@@ -41,7 +44,7 @@ const ClassicTemplate: React.FC = () => {
                 {personalInfo.email && (
                   <div className="mb-3">
                     <p className={`${fontSizeClass.body} font-semibold`}>
-                      Email
+                      {getTranslation("email", language)}
                     </p>
                     <p className={`${fontSizeClass.body} break-words`}>
                       {personalInfo.email}
@@ -51,7 +54,7 @@ const ClassicTemplate: React.FC = () => {
                 {personalInfo.phone && (
                   <div className="mb-3">
                     <p className={`${fontSizeClass.body} font-semibold`}>
-                      Phone
+                      {getTranslation("phone", language)}
                     </p>
                     <p className={`${fontSizeClass.body} break-words`}>
                       {personalInfo.phone}
@@ -103,7 +106,7 @@ const ClassicTemplate: React.FC = () => {
                 <h2
                   className={`${fontSizeClass.heading} font-bold text-center mb-6`}
                 >
-                  Work Experience
+                  {getTranslation("workExperience", language)}
                 </h2>
                 {experiences.map(
                   (exp) =>
@@ -141,7 +144,7 @@ const ClassicTemplate: React.FC = () => {
                 <h2
                   className={`${fontSizeClass.heading} font-bold text-center mb-6`}
                 >
-                  Education
+                  {getTranslation("education", language)}
                 </h2>
                 {education.map(
                   (edu) =>
@@ -181,7 +184,7 @@ const ClassicTemplate: React.FC = () => {
               <h2
                 className={`${fontSizeClass.heading} text-2xl font-bold text-center mb-6`}
               >
-                Skills
+                {getTranslation("skills", language)}
               </h2>
               <div
                 className={`${fontSizeClass.body} text-gray-700`}
@@ -209,7 +212,7 @@ const ClassicTemplate: React.FC = () => {
           )}
         </div>
       </div>
-    </div>
+    </DirectionWrapper>
   );
 };
 

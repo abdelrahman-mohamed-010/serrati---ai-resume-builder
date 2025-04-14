@@ -1,6 +1,8 @@
 import React from "react";
 import { useResumeStore } from "../../../lib/store/resumeStore";
 import DOMPurify from "dompurify";
+import { DirectionWrapper } from "@/components/ui/direction-wrapper";
+import { getTranslation } from "@/lib/utils/translations";
 
 const ModernTemplate: React.FC = () => {
   const {
@@ -11,6 +13,7 @@ const ModernTemplate: React.FC = () => {
     skills,
     customSections,
     fontSize,
+    language,
   } = useResumeStore();
 
   const fontSizeClass = {
@@ -25,12 +28,12 @@ const ModernTemplate: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto bg-white shadow-lg flex">
+    <DirectionWrapper className="max-w-4xl mx-auto bg-white shadow-lg flex">
       {/* Sidebar */}
       <aside className="w-1/3 bg-gray-100 p-6">
         <div className="mb-8">
           <h1 className={`${fontSizeClass.heading} text-2xl font-bold mb-2`}>
-            {personalInfo.name || "Your Name"}
+            {personalInfo.name || getTranslation("yourName", language)}
           </h1>
         </div>
 
@@ -39,17 +42,21 @@ const ModernTemplate: React.FC = () => {
           <h2
             className={`${fontSizeClass.heading} font-semibold mb-3 text-gray-700`}
           >
-            Contact
+            {getTranslation("contact", language)}
           </h2>
           {personalInfo.email && (
             <div className="mb-2">
-              <p className="font-medium">Email:</p>
+              <p className="font-medium">
+                {getTranslation("email", language)}:
+              </p>
               <p>{personalInfo.email}</p>
             </div>
           )}
           {personalInfo.phone && (
             <div className="mb-2">
-              <p className="font-medium">Phone:</p>
+              <p className="font-medium">
+                {getTranslation("phone", language)}:
+              </p>
               <p>{personalInfo.phone}</p>
             </div>
           )}
@@ -61,7 +68,7 @@ const ModernTemplate: React.FC = () => {
             <h2
               className={`${fontSizeClass.heading} font-semibold mb-3 text-gray-700`}
             >
-              Connect
+              {getTranslation("connect", language)}
             </h2>
             {personalInfo.socialLinks.map(
               (link, index) =>
@@ -88,7 +95,7 @@ const ModernTemplate: React.FC = () => {
             <h2
               className={`${fontSizeClass.heading} font-semibold mb-3 text-gray-700`}
             >
-              Skills
+              {getTranslation("skills", language)}
             </h2>
             <div
               className={fontSizeClass.body}
@@ -106,7 +113,7 @@ const ModernTemplate: React.FC = () => {
             <h2
               className={`${fontSizeClass.heading} font-semibold mb-2 text-gray-800`}
             >
-              Profile
+              {getTranslation("profile", language)}
             </h2>
             <p className={fontSizeClass.body}>{professionalSummary}</p>
           </section>
@@ -118,7 +125,7 @@ const ModernTemplate: React.FC = () => {
             <h2
               className={`${fontSizeClass.heading} font-semibold mb-2 text-gray-800`}
             >
-              Experience
+              {getTranslation("workExperience", language)}
             </h2>
             {experiences.map((exp) => (
               <div key={exp.id} className="mb-4">
@@ -144,7 +151,7 @@ const ModernTemplate: React.FC = () => {
             <h2
               className={`${fontSizeClass.heading} font-semibold mb-2 text-gray-800`}
             >
-              Education
+              {getTranslation("education", language)}
             </h2>
             {education.map((edu, index) => (
               <div key={index} className="mb-3">
@@ -177,7 +184,7 @@ const ModernTemplate: React.FC = () => {
             )
         )}
       </main>
-    </div>
+    </DirectionWrapper>
   );
 };
 

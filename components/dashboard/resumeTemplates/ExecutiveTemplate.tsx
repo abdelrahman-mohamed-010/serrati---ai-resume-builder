@@ -1,6 +1,8 @@
 import React from "react";
 import { useResumeStore } from "../../../lib/store/resumeStore";
 import DOMPurify from "dompurify";
+import { DirectionWrapper } from "@/components/ui/direction-wrapper";
+import { getTranslation } from "@/lib/utils/translations";
 
 const ExecutiveTemplate: React.FC = () => {
   const {
@@ -11,6 +13,7 @@ const ExecutiveTemplate: React.FC = () => {
     skills,
     customSections,
     fontSize,
+    language,
   } = useResumeStore();
 
   const fontSizeClass = {
@@ -25,11 +28,11 @@ const ExecutiveTemplate: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto bg-white shadow-lg">
+    <DirectionWrapper className="max-w-4xl mx-auto bg-white shadow-lg">
       {/* Bold Header */}
       <div className="bg-gray-900 text-white px-10 py-8">
         <h1 className={`${fontSizeClass.heading} text-3xl font-bold mb-2`}>
-          {personalInfo.name || "Your Name"}
+          {personalInfo.name || getTranslation("yourName", language)}
         </h1>
         <div className="flex flex-wrap items-center text-gray-300">
           {personalInfo.email && (
@@ -70,7 +73,7 @@ const ExecutiveTemplate: React.FC = () => {
             <h2
               className={`${fontSizeClass.heading} font-bold mb-4 text-gray-900 border-b-2 border-gray-300 pb-2`}
             >
-              Executive Summary
+              {getTranslation("executiveSummary", language)}
             </h2>
             <p
               className={`${fontSizeClass.body} leading-relaxed text-gray-700`}
@@ -86,7 +89,7 @@ const ExecutiveTemplate: React.FC = () => {
             <h2
               className={`${fontSizeClass.heading} font-bold mb-4 text-gray-900 border-b-2 border-gray-300 pb-2`}
             >
-              Professional Experience
+              {getTranslation("professionalExperience", language)}
             </h2>
             {experiences.map((exp) => (
               <div key={exp.id} className="mb-6">
@@ -116,7 +119,7 @@ const ExecutiveTemplate: React.FC = () => {
               <h2
                 className={`${fontSizeClass.heading} font-bold mb-4 text-gray-900 border-b-2 border-gray-300 pb-2`}
               >
-                Education
+                {getTranslation("education", language)}
               </h2>
               {education.map((edu, index) => (
                 <div key={index} className="mb-4">
@@ -134,7 +137,7 @@ const ExecutiveTemplate: React.FC = () => {
               <h2
                 className={`${fontSizeClass.heading} font-bold mb-4 text-gray-900 border-b-2 border-gray-300 pb-2`}
               >
-                Areas of Expertise
+                {getTranslation("areasOfExpertise", language)}
               </h2>
               <div
                 className={`${fontSizeClass.body} text-gray-700`}
@@ -164,7 +167,7 @@ const ExecutiveTemplate: React.FC = () => {
             )
         )}
       </div>
-    </div>
+    </DirectionWrapper>
   );
 };
 
