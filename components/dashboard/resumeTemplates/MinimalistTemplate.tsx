@@ -1,6 +1,8 @@
 import React from "react";
 import { useResumeStore } from "../../../lib/store/resumeStore";
 import DOMPurify from "dompurify";
+import { DirectionWrapper } from "@/components/ui/direction-wrapper";
+import { getTranslation } from "@/lib/utils/translations";
 
 const MinimalistTemplate: React.FC = () => {
   const {
@@ -11,12 +13,13 @@ const MinimalistTemplate: React.FC = () => {
     skills,
     customSections,
     fontSize,
+    language,
   } = useResumeStore();
 
   const fontSizeClass = {
-    small: { body: "text-sm", heading: "text-lg" },
-    medium: { body: "text-base", heading: "text-xl" },
-    large: { body: "text-lg", heading: "text-2xl" },
+    small: { body: "text-[0.75rem]", heading: "text-[1rem]" }, // 9pt body, 12pt headings
+    medium: { body: "text-[0.833rem]", heading: "text-[1.083rem]" }, // 10pt body, 13pt headings
+    large: { body: "text-[0.917rem]", heading: "text-[1.167rem]" }, // 11pt body, 14pt headings
   }[fontSize];
 
   // Sanitize HTML content
@@ -25,13 +28,13 @@ const MinimalistTemplate: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-10 bg-white shadow-sm">
+    <DirectionWrapper className="max-w-4xl mx-auto p-10 bg-white shadow-sm">
       {/* Header with minimal styling */}
       <header className="mb-8">
         <h1
           className={`${fontSizeClass.heading} text-3xl font-light mb-2 text-gray-900`}
         >
-          {personalInfo.name || "Your Name"}
+          {personalInfo.name || getTranslation("yourName", language)}
         </h1>
         <div className="flex flex-wrap text-gray-600">
           {personalInfo.email && (
@@ -65,7 +68,7 @@ const MinimalistTemplate: React.FC = () => {
           <h2
             className={`${fontSizeClass.heading} font-light mb-3 text-gray-800 uppercase tracking-wider`}
           >
-            About
+            {getTranslation("about", language)}
           </h2>
           <p className={`${fontSizeClass.body} text-gray-700 leading-relaxed`}>
             {professionalSummary}
@@ -79,7 +82,7 @@ const MinimalistTemplate: React.FC = () => {
           <h2
             className={`${fontSizeClass.heading} font-light mb-4 text-gray-800 uppercase tracking-wider`}
           >
-            Experience
+            {getTranslation("workExperience", language)}
           </h2>
           {experiences.map((exp) => (
             <div key={exp.id} className="mb-6">
@@ -105,7 +108,7 @@ const MinimalistTemplate: React.FC = () => {
           <h2
             className={`${fontSizeClass.heading} font-light mb-4 text-gray-800 uppercase tracking-wider`}
           >
-            Education
+            {getTranslation("education", language)}
           </h2>
           {education.map((edu, index) => (
             <div key={index} className="mb-4">
@@ -124,7 +127,7 @@ const MinimalistTemplate: React.FC = () => {
           <h2
             className={`${fontSizeClass.heading} font-light mb-4 text-gray-800 uppercase tracking-wider`}
           >
-            Skills
+            {getTranslation("skills", language)}
           </h2>
           <div
             className={`${fontSizeClass.body} text-gray-700`}
@@ -152,7 +155,7 @@ const MinimalistTemplate: React.FC = () => {
             </section>
           )
       )}
-    </div>
+    </DirectionWrapper>
   );
 };
 

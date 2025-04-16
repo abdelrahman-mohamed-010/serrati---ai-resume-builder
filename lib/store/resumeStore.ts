@@ -18,6 +18,8 @@ export const useResumeStore = create<ResumeStore>((set) => ({
   skills: "",
   customSections: [{ title: "", content: "" }],
   fontSize: "medium",
+  template: "classic", // Changed default from "creative" to "classic"
+  language: "arabic", // Default language is Arabic
 
   setPersonalInfo: (info) =>
     set((state) => ({
@@ -124,4 +126,6 @@ export const useResumeStore = create<ResumeStore>((set) => ({
   setCustomSections: (customSections) => set({ customSections }),
 
   setFontSize: (size) => set({ fontSize: size }),
+  setTemplate: (template) => set({ template }),
+  setLanguage: (language) => set({ language }),
 }));

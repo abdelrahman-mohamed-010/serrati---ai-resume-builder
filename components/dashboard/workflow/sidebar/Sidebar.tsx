@@ -2,16 +2,14 @@ import React from "react";
 import { ATSScore } from "./ATSScore";
 import { TemplatesSection } from "./TemplatesSection";
 import { FontSizePicker } from "./FontSizePicker";
+import { LanguagePicker } from "./LanguagePicker";
 
-interface SidebarProps {
-  currentTemplate: string;
-}
-
-export const Sidebar: React.FC<SidebarProps> = ({ currentTemplate }) => {
+export const Sidebar: React.FC = () => {
   return (
     <div className="space-y-4">
       <ATSScore />
-      <TemplatesSection currentTemplate={currentTemplate} />
+      <TemplatesSection />
+      <LanguagePicker />
       <FontSizePicker />
     </div>
   );
